@@ -201,157 +201,6 @@ function logout() {
 
 // ####################### LOGOUT FUNCTION END ########################//
 
-$(document).on('change', '#type', function() {
-  var type = $('#type').val();
-
-  if (typeof type === 'undefined') {
-    $('#categorySection').hide();
-    return;
-  }
-
-  $.ajax({
-      url: '/get-category-by-type',
-      // method: 'POST',
-      contentType: 'application/json; charset=utf-8',
-      data: {
-        type
-      }
-    })
-    .then(function onSuccess(html) {
-      $('#categorySection').html(html).show();
-    })
-    .fail(function onFailure(response) {
-      return;
-    });
-});
-
-$(document).on('change', '#categories', function() {
-  var categoryId = $('#categories').val();
-
-  if (typeof categoryId === 'undefined') {
-    $('#categoryDetail').hide();
-    return;
-  }
-
-  $.ajax({
-      url: '/get-category-details',
-      // method: 'POST',
-      contentType: 'application/json; charset=utf-8',
-      data: {
-        categoryId
-      }
-    })
-    .then(function onSuccess(html) {
-      $('#categoryDetail').html(html).show();
-    })
-    .fail(function onFailure(response) {
-      return;
-    });
-});
-
-function checkAndGetCost(element) {
-  var theatreId = $('#theatre').data('id');
-  var numOfSeats = $('#seatsToBeBooked').val();
-  var show = $('input[name=showTimings]:checked').val();
-  var isValid = true;
-
-  if (typeof show === 'undefined' || !show) {
-    isValid = false;
-    $('#confirmation-block .model-success h2').html('Please select the show timing');
-    $('#confirmation-block').show();
-  }
-
-  if (show === "9:00 AM") {
-    show = "9";
-  }
-  if (show === "01:00 PM") {
-    show = "13";
-  }
-  if (show === "05:00 PM") {
-    show = "17";
-  }
-  if (show === "9:00 PM") {
-    show = "21";
-  }
-
-  if (typeof numOfSeats === 'undefined' || !numOfSeats || numOfSeats < 1) {
-    isValid = false;
-    $('#confirmation-block .model-success h2').html('Type in number of seats');
-    $('#confirmation-block').show();
-  }
-
-  if (isValid) {
-    var data = {
-      theatreId: theatreId,
-      numOfSeats: numOfSeats,
-      show: show
-    };
-    $.ajax({
-        url: '/check-availability',
-        contentType: 'application/json; charset=utf-8',
-        data: data
-      })
-      .then(function onSuccess(html) {
-        $('#confirmation').html(html).show();
-      })
-      .fail(function onFailure(response) {
-        return;
-      });
-  }
-}
-
-function confirmBooking(elemet) {
-  var type = $('#type').val();
-  var categoryId = $('#categories').val();
-  var theatreId = $('#theatre').data('id');
-  var numOfSeats = $('#numOfSeats').data('numoftickets');
-  var show = $('#showTime').data('showtime');
-  var totalCost = $('#totalCost').data('totalcost');
-
-  if (show === "9:00 AM") {
-    show = "9";
-  }
-  if (show === "01:00 PM") {
-    show = "13";
-  }
-  if (show === "05:00 PM") {
-    show = "17";
-  }
-  if (show === "9:00 PM") {
-    show = "21";
-  }
-
-  var data = {
-    type: type,
-    categoryId: categoryId,
-    theatreId: theatreId,
-    numOfSeats: numOfSeats,
-    show: show,
-    totalCost: totalCost
-  }
-
-  $.ajax({
-      url: '/book-ticket',
-      method: 'POST',
-      contentType: 'application/json; charset=utf-8',
-      data: JSON.stringify(data)
-    })
-    .then(function onSuccess(response) {
-      $('#confirm .model-success h2').html(response.message);
-      $('#confirm').show();
-    })
-    .fail(function onFailure(response) {
-      var error;
-      var message;
-
-      error = response.responseJSON;
-      message = error ? error.message : 'Internal error. Please try again.';
-      $('#confirm .model-success h2').html(message);
-      $('#confirm').show();
-      return;
-    });
-}
-
 function gotoSignUp(element) {
   $('#signIn').hide();
   $('#signUp').show();
@@ -361,3 +210,202 @@ function gotoSignIn(element) {
   $('#signUp').hide();
   $('#signIn').show();
 }
+
+function gotoCreatePostPage() {
+  window.location.href = '/create-post';
+}
+
+function publishPost(element) {
+  var title = $('#postTitle').val();
+  var content = $('#postData').val();
+  var isValid = true;
+
+  if (title.trim() === '') {
+    isValid = false;
+    $('#new-post-title').html('Title Cannot Be Empty');
+  } else {
+    $('#new-post-title').html('');
+  }
+
+  if (content.trim() === '') {
+    isValid = false;
+    $('#new-post-data').html('Post Cannot Be Empty');
+    return;
+  } else {
+    $('#new-post-data').html('');
+  }
+
+  if (isValid) {
+    var data = {
+      title,
+      content
+    };
+    $.ajax({
+        url: '/post/save',
+        method: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+      })
+      .then(function onSuccess(response) {
+        if (response.success) {
+          $('#new-post-title').html('Post Published');
+          setTimeout(() => {
+            $('#new-post-title').html('');
+            $('#new-post-data').html('');
+          }, 2000);
+          return;
+        }
+      })
+      .fail(function onFailure(response) {
+        var error;
+        var message;
+
+        error = response.responseJSON;
+        message = error ? error.message : 'Internal error. Please try again.';
+        $('#new-post-title').html(message);
+        return;
+      });
+  }
+}
+
+$('#postTitle').on('input', function() {
+  $('#new-post-title').html('');
+});
+
+$('#postData').on('input', function() {
+  $('#new-post-data').html('');
+});
+
+function postComment(element) {
+  var comment = $('#comment').val();
+  var postId = $(element).data('postid');
+  var isValid = true;
+
+  if (comment.trim() === '') {
+    isValid = false;
+  }
+
+  if (isValid) {
+    var data = {
+      comment,
+      postId
+    };
+    $.ajax({
+        url: '/post/post-comment',
+        method: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+      })
+      .then(function onSuccess(html) {
+        $('#comment').val('');
+        // $('#new-comment').html(html);
+        $('#new-comment').prepend(html);
+      })
+      .fail(function onFailure(response) {
+        var error;
+        var message;
+
+        error = response.responseJSON;
+        message = error ? error.message : 'Internal error. Please try again.';
+        $('#new-post-title').html(message);
+        return;
+      });
+  }
+}
+
+function showReplyBlock(element) {
+  $(element).siblings('.replayComment').show();
+}
+
+function postReply(element) {
+  var comment = $(element).siblings('.reply').val();
+  var postId = $(element).data('postid');
+  var parentCommentId = $(element).data('parentid');
+  var isValid = true;
+
+  if (comment.trim() === '') {
+    isValid = false;
+    return;
+  }
+
+  if (isValid) {
+    var data = {
+      comment,
+      postId,
+      parentCommentId
+    };
+    $.ajax({
+        url: '/post/post-comment',
+        method: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+      })
+      .then(function onSuccess(html) {
+        $('.reply').val('');
+        $(element).parent().hide();
+        $(element).parent().parent().append(html);
+      })
+      .fail(function onFailure(response) {
+        var error;
+        var message;
+
+        error = response.responseJSON;
+        message = error ? error.message : 'Internal error. Please try again.';
+        $('#new-post-title').html(message);
+        return;
+      });
+  }
+}
+
+//######################## COMMENT PAGINATION ########################
+var pagenum = 2;
+var LoadMoreClick = false;
+var moreExist = true;
+var isProcessing = false;
+
+function loadMoreHomePageClick(element) { // eslint-disable-line no-unused-vars
+  var postId = $(element).data('postid');
+  $(element).hide();
+  LoadMoreClick = true;
+  isProcessing = true;
+
+  var data = {
+    pagenum: pagenum,
+    postId: postId
+  };
+
+  $.ajax({
+    url: '/post/comment/pagination',
+    data: data,
+    success: function(html) {
+      isProcessing = false;
+      var $data = $(html);
+      $('#new-comment').append($data);
+      pagenum++;
+    }
+  });
+}
+
+$(window).scroll(() => {
+  var scrltop = $(window).scrollTop();
+  var postId = $('#postComment').data('postid');
+  if (LoadMoreClick && moreExist && !isProcessing) {
+    isProcessing = true;
+    $('.loadmore').show();
+    var data = {
+      pagenum: pagenum,
+      postId: postId
+    };
+
+    $.ajax({
+      url: '/post/comment/pagination',
+      data: data,
+      success: function(html) {
+        isProcessing = false;
+        var $data = $(html);
+        $('#new-comment').append($data);
+        pagenum++;
+      }
+    });
+  }
+});

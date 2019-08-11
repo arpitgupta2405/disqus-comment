@@ -1,0 +1,37 @@
+<% if(comment.length > 0) {%>
+<% for(var i=0;i<comment.length;i++) {%>
+<div class="main-comment">
+  <div class="block-comment">
+    <%- include('../partials/inner-comment-partial', {innerComment: comment[i]})%>
+  </div>
+</div>
+<%if(comment[i].child && typeof comment[i].child!=='undefined'){%>
+<%var childComment = comment[i].child
+  childComment =_.sortBy(childComment,['createdTime']);
+  childComment =childComment.reverse();
+  %>
+<div class="innerComment">
+  <% for(var j=0;j<childComment.length;j++) {%>
+  <div class="block-comment">
+    <%- include('../partials/inner-comment-partial', {innerComment: childComment[j]})%>
+    <% if(childComment[j].child && typeof childComment[j].child!=='undefined') {%>
+    <%var childComment1 = childComment[j].child 
+      childComment1 =_.sortBy(childComment1,['createdTime']);
+  childComment1 =childComment1.reverse();%>
+    <% for(var k=0;k<childComment1.length;k++) {%>
+    <div class="innerComment">
+      <div class="block-comment">
+        <%- include('../partials/inner-comment-partial', {innerComment: childComment1[k]})%>
+      </div>
+    </div>
+  </div>
+  <% } %>
+  <% } %>
+</div>
+</div>
+<%}%>
+</div>
+<%}%>
+</div>
+<% } %>
+<% } %>

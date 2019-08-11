@@ -1,32 +1,23 @@
 <section class="faq-section">
   <div class="container">
-    <h1>Welcome</h1>
+    <h1>All the published posts</h1>
+    <button onclick="gotoCreatePostPage()" style="font-size: 15px; color: blue; text-decoration: underline;">Create Post</button>
     <div class="faq-content">
       <div class="faq-inner-content">
-        <h4>Choose</h4>
         <div class="contact-sec">
+          <% for(let i=0;i<posts.length;i++) { %>
           <ul>
-            Select the type:
-            <li>
-              <select id="type">
-                <option>SELECT ONE</option>
-                <option value="MOVIE">MOVIE</option>
-                <option value="EVENT">EVENT</option>
-              </select>
+            <li>Post Name:
+              <a href="/post/<%= posts[i].id%>/<%= posts[i].slug%>" style="color: blue">
+                <%= posts[i].name%></a>
             </li>
           </ul>
+          <% } %>
         </div>
       </div>
-    </div>
-    <div class="faq-content" id="categorySection" style="display: none">
-    </div>
-    <div class="faq-content" id="categoryDetail" style="display: none">
-    </div>
-    <div class="faq-content" id="confirmation" style="display: none">
     </div>
   </div>
 </section>
 <button class="scrolltop-btn">
   <i class="fas fa-chevron-up"></i>
 </button>
-<%- include('../partials/footer') %>

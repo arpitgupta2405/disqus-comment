@@ -9,8 +9,12 @@ module.exports = {
   show: async function(req, res) {
     let model = {};
     await BaseController.assignCommons(req, res, model);
-    model.firstfold = 'home';
-    return res.view('pages/homepage', model);
+    return Post.getAll()
+      .then((result) => {
+        model.posts = result;
+        model.firstfold = 'home';
+        return res.view('pages/homepage', model);
+      });
   },
 
   login: async function(req, res) {

@@ -1,0 +1,21 @@
+<div class="innerComment">
+  <div class="block-comment">
+    <figure><img src="<%= cloudFrontPath%>/<%= user.profilePic%>"></figure>
+    <div class="comment-content">
+      <div class="commentTop">
+        <span class="name">
+          <%= user.userName%></span>
+        <span class="time">
+          <%= moment(result.createdTime).calendar()%></span>
+      </div>
+      <div class="content">
+        <%= result.comment%>
+      </div>
+      <button class="replay" onclick="showReplyBlock(this)">Reply</button>
+      <div class="replayComment" style="display: none">
+        <textarea placeholder="Write a comment..." class="reply"></textarea>
+        <button class="submit" data-parentid="<%= result.id%>" data-postid="<%= result.postId%>" onclick="postReply(this)">Comment</button>
+      </div>
+    </div>
+  </div>
+</div>

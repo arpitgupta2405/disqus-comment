@@ -14,17 +14,17 @@ var MySQLSessionStore = require('express-mysql-session')(session);
 var sessionOptions = {
   name: 'test',
 
-  // user: 'root',
-  // password: 'Gmail@123',
-  // database: 'Ticket_Booking',
-  // host: '127.0.0.1',
-  // port: 3306,
-
   user: 'root',
-  password: 'Gmail123',
-  database: 'Ticket_Booking',
-  host: 'database-1.coh0hs2zwmxd.us-east-2.rds.amazonaws.com',
+  password: 'Gmail@123',
+  database: 'Comment_System',
+  host: '127.0.0.1',
   port: 3306,
+
+  // user: 'root',
+  // password: 'Gmail123',
+  // database: 'Ticket_Booking',
+  // host: 'database-1.coh0hs2zwmxd.us-east-2.rds.amazonaws.com',
+  // port: 3306,
 
   secret: 'eg[isfd-8yF9-7w2315df',
 

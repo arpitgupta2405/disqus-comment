@@ -19,32 +19,16 @@ module.exports.routes = {
   'GET /': 'HomePageController.show',
 
   'GET /login': 'HomePageController.login',
-  'GET /get-category-by-type': 'CategoryPageController.getCategoriesByType',
-  'GET /get-category-details': 'CategoryPageController.getCategoryDetail',
-  'GET /check-availability': 'CategoryPageController.checkAvailability',
-  'POST /book-ticket': 'CategoryPageController.bookTicket',
+  'GET /create-post': 'PostPageController.showCreatePage',
+  'POST /post/save': 'PostPageController.savePost',
+  'GET /post/:id/:slug': 'PostPageController.show',
+  'POST /post/post-comment': 'PostPageController.comment',
+  'GET /post/comment/pagination': 'PostPageController.pagination',
 
   /* ############# USER ROUTES ############# */
   'POST /user/login': 'AuthController.login',
   'POST /user/signup': 'AuthController.signUp',
   'POST /user/logout': 'AuthController.logout',
-
-  /* ############# ADMIN ROUTES ############# */
-
-  'GET /admin': 'AdminController.showLoginPage',
-  'POST /admin/login': 'AdminController.login',
-  'GET /admin/work': 'AdminController.showWorkPage',
-  'POST /admin/logout': 'AdminController.logout',
-  '/admin/view-all-theatres': 'AdminController.showAllTheatres',
-  '/admin/view-all-movies': 'AdminController.showAllCategories',
-  'POST /admin/add-new-theatre': 'AdminController.addNewTheatre',
-  'POST /admin/add-new-movie': 'AdminController.addNewMovie',
-  '/admin/edit-theatre-detail/:theatreId(\\d+)': 'AdminController.editTheatreDetail',
-  '/admin/edit-category-detail/:categoryId(\\d+)': 'AdminController.editCategoryDetail',
-  'PUT /admin/update-theatre-detail': 'AdminController.updateTheatreDetail',
-  'PUT /admin/update-category-detail': 'AdminController.updateCategoryDetail',
-  'PUT /admin/delete-category': 'AdminController.deleteCategory',
-  'PUT /admin/delete-theatre': 'AdminController.deleteTheatre',
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗

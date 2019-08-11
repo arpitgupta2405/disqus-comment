@@ -38,6 +38,9 @@ module.exports = {
     authToken: {
       type: Sequelize.STRING,
     },
+    profilePic: {
+      type: Sequelize.STRING,
+    },
     createdTime: {
       allowNull: false,
       type: Sequelize.DATE
@@ -161,6 +164,14 @@ module.exports = {
               };
             }
           });
+      },
+
+      getUserById: async function(userId) {
+        return this.find({
+          where: {
+            id: userId
+          }
+        });
       },
     },
   },
