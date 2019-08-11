@@ -1,4 +1,4 @@
-# ticket-booking-app
+# disqus-comment
 
 a [Sails v1](https://sailsjs.com) application
 
