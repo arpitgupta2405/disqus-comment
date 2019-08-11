@@ -4,6 +4,12 @@
       <img src="https://arpit245.s3.us-east-2.amazonaws.com/the-forum-logo.png" style="width: 35%" alt="logo">
     </a>
     <nav>
+      <% if(req.session && typeof req.session.userId === 'undefined') {%>
+      <button class="btn btn-primary" aria-label="Signup button">
+        <span class="header-avatar"><i class="icon"></i></span>
+        <span class="d-none d-iphone-block" onclick="gotoLoginPage()"> Sign In</span>
+      </button>
+      <% } %>
       <% if(req.session && req.session.userId) {%>
       <div class="get-start">
         <button class="btn btn-primary" aria-label="Signup button">

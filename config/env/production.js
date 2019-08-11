@@ -31,12 +31,6 @@ var sessionOptions = {
   // host: '127.0.0.1',
   // port: 3306,
 
-  user: 'root',
-  password: 'Gmail123',
-  database: 'Comment_System',
-  host: 'database-1.coh0hs2zwmxd.us-east-2.rds.amazonaws.com',
-  port: 3306,
-
   secret: 'eg[isfd-8yF9-7w2315df',
 
   cookie: {
