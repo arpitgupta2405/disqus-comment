@@ -1,4 +1,4 @@
-<figure><img src="<%= cloudFrontPath%>/<%= innerComment.profilePic%>"></figure>
+<figure><img src="<%= cloudFrontPath%><%= innerComment.profilePic%>"></figure>
 <div class="comment-content">
   <div class="commentTop">
     <span class="name">
@@ -12,5 +12,5 @@
   <button class="replay" onclick="showReplyBlock(this)">Reply</button>
   <div class="replayComment" style="display: none">
     <textarea placeholder="Write a comment..." class="reply"></textarea>
-    <button class="submit" data-parentid="<%= innerComment.id%>" data-postid="<%= post.id%>" onclick="postReply(this)">Comment</button>
+    <button class="submit" data-parentid="<%= innerComment.id%>" data-postid="<%= post.id%>" onclick="<%= (req.session.userId) ? 'postReply(this)': 'gotoLoginPage()'%>">Comment</button>
   </div>

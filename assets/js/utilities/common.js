@@ -82,6 +82,7 @@ function signUp(element) {
   var userEmail = $('#femail').val();
   var password = $('#fpassword').val();
   var userName = $('#fname').val();
+  var profilePic = $(element).attr('data-imagesrc');
   var isValid = true;
 
   if (userName.trim() === '') {
@@ -112,6 +113,7 @@ function signUp(element) {
     isValid = false;
     $('#femail').addClass('invalid');
     $('#error-msg-femail').html('Please enter valid email id.').removeClass('hide');
+    return;
   }
 
   if (password.trim() === '') {
@@ -132,7 +134,8 @@ function signUp(element) {
     var data = {
       userEmail: userEmail,
       password: password,
-      userName: userName
+      userName: userName,
+      profilePic: profilePic
     };
     $.ajax({
         url: '/user/signup',
@@ -408,4 +411,45 @@ $(window).scroll(() => {
       }
     });
   }
+});
+
+function gotoLoginPage() {
+  window.location.href = '/login';
+}
+
+$(document).on('change', '.profile-pic', () => {
+  var fileData = $('#profile-pic').prop('files')[0];
+
+  var ext = $('#profile-pic').val().split('.').pop().toLowerCase();
+  var extensions = ['gif', 'png', 'jpg', 'jpeg'];
+  if (extensions.indexOf(ext) === -1) {
+    alert('Invalid extension! Upload Gif, png, jpeg, jpg');
+    $('#profile-pic').addClass('datarequired');
+    $('#profile-pic').val('');
+    return false;
+  }
+  $('#signUpButton').attr("disabled", true);
+  var formData = new FormData();
+  formData.append('profile-pic', fileData);
+  $('.profile-pic').find('img').attr('src', 'https://images.template.net/images/spinner-loader.svg');
+  $('.profile-pic').click(false);
+
+  $.ajax({
+      url: '/user/profile-pic-upload',
+      method: 'POST',
+      processData: false,
+      contentType: false,
+      // contentType: 'application/json; charset=utf-8',
+      data: formData
+    })
+    .then(function onSuccess(response) {
+      $('#signUpButton').attr('data-imagesrc', response.files);
+      $('.profile-pic').off('click');
+      $('#signUpButton').removeAttr("disabled");
+      return;
+    })
+    .fail(function onFailure(response) {
+      $('.profile-pic').off('click');
+      return;
+    });
 });

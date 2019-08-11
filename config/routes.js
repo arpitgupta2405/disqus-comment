@@ -29,6 +29,7 @@ module.exports.routes = {
   'POST /user/login': 'AuthController.login',
   'POST /user/signup': 'AuthController.signUp',
   'POST /user/logout': 'AuthController.logout',
+  'POST /user/profile-pic-upload': 'AuthController.profilePicUpload',
 
   //  ╔═╗╔═╗╦  ╔═╗╔╗╔╔╦╗╔═╗╔═╗╦╔╗╔╔╦╗╔═╗
   //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗

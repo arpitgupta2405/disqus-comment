@@ -220,5 +220,5 @@ button.submit {
 <button style="margin-left: 100px" class="submit" data-postid="<%= post.id%>" data-slug="<%= post.slug%>" onclick="loadMoreHomePageClick(this)">Load More Comments...</button><br><br>
 <div class="submit-comment" style="width: 50%; margin-left: 100px">
   <textarea placeholder="Write a comment..." id="comment"></textarea>
-  <button class="submit" data-postid="<%= post.id%>" id="postComment" onclick="postComment(this)">Comment</button>
+  <button class="submit" data-postid="<%= post.id%>" id="postComment" onclick="<%= (req.session.userId) ? 'postComment(this)': 'gotoLoginPage()'%>">Comment</button>
 </div>

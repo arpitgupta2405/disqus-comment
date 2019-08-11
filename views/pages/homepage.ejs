@@ -1,7 +1,7 @@
 <section class="faq-section">
   <div class="container">
     <h1>All the published posts</h1>
-    <button onclick="gotoCreatePostPage()" style="font-size: 15px; color: blue; text-decoration: underline;">Create Post</button>
+    <button onclick="<%= (req.session.userId) ? 'gotoCreatePostPage()': 'gotoLoginPage()'%>" style="font-size: 15px; color: blue; text-decoration: underline;">Create Post</button>
     <div class="faq-content">
       <div class="faq-inner-content">
         <div class="contact-sec">

@@ -94,7 +94,7 @@ module.exports = {
     connection: 'default',
     classMethods: {
       createUser: async function(opts) {
-        opts = _.pick(opts, ['userName', 'userEmail', 'password']);
+        opts = _.pick(opts, ['userName', 'userEmail', 'password', 'profilePic']);
 
         const qOpts = {
           where: {
@@ -106,7 +106,7 @@ module.exports = {
         return User.findOrCreate(qOpts)
           .spread((user, created) => {
             user.authToken = user.generateJwt();
-            user = _.pick(user, ['id', 'userName', 'userEmail', 'authToken']);
+            user = _.pick(user, ['id', 'userName', 'userEmail', 'authToken', 'profilePic']);
             if (created) { // new user
               return {
                 success: true,

@@ -145,31 +145,8 @@ module.exports = {
       });
   },
 
-  addPost: async function(req, res) {
-    let postData;
-    let userId;
-    let opts;
-
-    opts = {};
-    postData = req.body;
-    userId = req.session.userId;
-    opts = postData;
-    opts.userId = userId;
-
-    return Post.add(opts)
-      .then((result) => {
-        return res.status(200).json({ message: "post added successfully", success: true })
-      })
-      .catch(err => {
-        sails.log.error(err);
-        return res.status(400).json({
-          success: false,
-          message: 'Bad Request'
-        });
-      });
-  },
-
-  comment: async function(req, res) {
+  comment
+: async function(req, res) {
     let userId;
     let postId;
     let opts;

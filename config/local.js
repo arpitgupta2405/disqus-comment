@@ -10,6 +10,8 @@
 
 var session = require('express-session');
 var MySQLSessionStore = require('express-mysql-session')(session);
+var fs = require('fs');
+var env = JSON.parse(fs.readFileSync('env.json', 'utf8'));
 
 var sessionOptions = {
   name: 'test',
@@ -149,6 +151,14 @@ module.exports = {
     //  headers: { 'x-amz-acl': 'public-read' }
     //  ```
     //--------------------------------------------------------------------------
+    adapter: require('skipper-s3'),
+    key: env.accessKeyId,
+    secret: env.secretAccessKey,
+    bucket: env.bucket,
+    region: env.region,
+    headers: {
+      'x-amz-acl': 'public-read'
+    }
 
   },
 

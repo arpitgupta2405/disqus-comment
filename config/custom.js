@@ -68,7 +68,7 @@ module.exports.custom = {
   // Whether to require proof of email address ownership any time a new user
   // signs up, or when an existing user attempts to change their email address.
   verifyEmailAddresses: true,
-  cloudFrontPath: 'https://images.template.net',
+  cloudFrontPath: 'https://arpit245.s3.us-east-2.amazonaws.com',
 
   /**************************************************************************
    *                                                                         *

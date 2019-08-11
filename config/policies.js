@@ -9,11 +9,10 @@
  */
 
 module.exports.policies = {
-  HomePageController: {
-    'show': ['is-logged-in']
-  },
 
   PostPageController: {
-    '*': ['is-logged-in']
+    'showCreatePage': ['is-logged-in'],
+    'savePost': ['is-logged-in'],
+    'comment': ['is-logged-in']
   }
 };

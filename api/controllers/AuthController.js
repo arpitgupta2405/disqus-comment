@@ -56,6 +56,7 @@ module.exports = {
     userData.userName = req.body.userName;
     userData.userEmail = req.body.userEmail;
     userData.password = req.body.password;
+    userData.profilePic = req.body.profilePic;
 
     if (typeof userData.userEmail !== 'undefined' && (userData.userEmail).trim() !== '' && typeof userData.userName !== 'undefined' && typeof userData.password !== 'undefined') {
 
@@ -97,6 +98,31 @@ module.exports = {
     };
 
     return res.status(200).json(data);
+  },
+
+  profilePicUpload: async function(req, res) {
+    let uploadOptions = sails.config.uploads;
+    let refererr = req.get('referrer').split('/');
+    uploadOptions.maxBytes = 10000000;
+    uploadOptions.dirname = `/arpit245`;
+    req.file('profile-pic').upload(uploadOptions, (err, uploadedFiles) => {
+      if (err) {
+        sails.log.error(err);
+        return res.json({
+          error: err,
+          status: false
+        });
+      }
+      sails.log.info('uploadedFiles', uploadedFiles);
+      // Upload Banner Image for Category+fileformat URL in UrlPages table
+      if (uploadedFiles.length > 0) {
+        return res.json({
+          files: uploadedFiles[0].fd,
+          success: true,
+          message: 'Image uploaded successfully!'
+        });
+      }
+    });
   }
 
 };
